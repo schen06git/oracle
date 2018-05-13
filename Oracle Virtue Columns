@@ -1,0 +1,44 @@
+Oracle Virtual columns (since 11g)
+--- add a virtual column when creating a table
+--- add a virtual column after creating a table 
+--- syntax
+
+Create table Listing_virt (
+Car_ID     NUMBER(10),
+OWNER_ID   NUMBER(10),
+IMAGE      VARCHAR2(4000),
+YEAR       VARCHAR2(6),
+VIN        VARCHAR2(18));
+
+Populate 10 rows using below sql:
+
+insert into Listing_virt select car_id, owner_id, image, year, vin from asap.listing where 
+dml_date > sysdate - 30 and rownum < 11;
+
+commit;
+
+-- add a virtual column
+alter table listing_virt add vin8 as ( substr(vin, -7) );
+
+-- describe the table
+
+-- query the table
+select car_id, owner_id,  vin, year, vin8 from listing_virt;
+
+-- index the virtual column
+create index myidx101 on listing_virt (vin8);
+
+--Use all/dba/user_tab_cols to find the definitions of virtual columns in a table
+select column_name, data_default from user_tab_cols 
+where table_name = 'LISTING_VIRT' and virtual_column = 'YES';
+
+-- re-define the virtual column
+alter table listing_virt modify vin8 as ( substr(vin, -7) );
+
+--drop the virtual column as a regular one
+alter table listing_virt drop column vin8;
+
+Potential usages:
+In Car table:
+  USED column:
+  
