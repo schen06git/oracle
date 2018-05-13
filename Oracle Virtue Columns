@@ -20,10 +20,32 @@ commit;
 -- add a virtual column
 alter table listing_virt add vin8 as ( substr(vin, -7) );
 
--- describe the table
+-- describe the table (added in 5/12/18)
+sql> desc listing_virt
+ Name                    Null?    Type
+ ----------------------- -------- ---------------
+ CAR_ID                           NUMBER(10)
+ OWNER_ID                         NUMBER(10)
+ IMAGE                            VARCHAR2(4000)
+ YEAR                             VARCHAR2(6)
+ VIN                              VARCHAR2(18)
+ VIN8                             VARCHAR2(8)
 
--- query the table
+-- query the table (updated in 5/12/18 with records)
 select car_id, owner_id,  vin, year, vin8 from listing_virt;
+
+    CAR_ID   OWNER_ID VIN               YEAR   VIN8
+---------- ---------- ----------------- ------ --------
+ 471807391   18961316 WA1BCCFS5HR015055 2017   HR015055
+ 473352532      83567 1C6RR7FT6ES281716 2014   ES281716
+ 471257562   18961316 JTEBU5JR8F5220758 2015   F5220758
+ 473967073   18961316 5FNYF4H5XFB040170 2015   FB040170
+ 470878473   18961316 WA1LGAFE6FD003210 2015   FD003210
+ 471916223      83567 1C4RJFJM5EC307212 2014   EC307212
+ 471117466   18961316 WA1LFAFP1FA137628 2015   FA137628
+ 472553796      83567 1C4HJWEG5GL297610 2016   GL297610
+ 473708547   18961316 1C4RJFCT2FC830905 2015   FC830905
+ 472642689      83567 3GYFNBE3XGS525686 2016   GS525686
 
 -- index the virtual column
 create index myidx101 on listing_virt (vin8);
