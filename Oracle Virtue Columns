@@ -1,4 +1,4 @@
-Oracle Virtual columns (since 11g)
+How to use Oracle Virtual columns (since 11g)
 --- add a virtual column when creating a table
 --- add a virtual column after creating a table 
 --- syntax
